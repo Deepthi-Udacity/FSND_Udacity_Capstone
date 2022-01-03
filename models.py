@@ -2,13 +2,13 @@ import os
 from sqlalchemy import Column, String, Integer
 from flask_sqlalchemy import SQLAlchemy
 
-DB_HOST = os.getenv('DB_HOST', '127.0.0.1:5432')
-DB_USER = os.getenv('DB_USER', 'student')
-DB_PASSWORD = os.getenv('DB_PASSWORD', 'student')
-DB_NAME = os.getenv('DB_NAME', 'castingagency')
+# DB_HOST = os.getenv('DB_HOST', '127.0.0.1:5432')
+# DB_USER = os.getenv('DB_USER', 'student')
+# DB_PASSWORD = os.getenv('DB_PASSWORD', 'student')
+# DB_NAME = os.getenv('DB_NAME', 'castingagency')
 
-DB_PATH = 'postgresql://{}:{}@{}/{}'.format(DB_USER, DB_PASSWORD, DB_HOST, DB_NAME)
-
+# DB_PATH = 'postgresql://{}:{}@{}/{}'.format(DB_USER, DB_PASSWORD, DB_HOST, DB_NAME)
+DB_PATH = os.getenv('DATABASE_URL','postgres://kongfkxwwongyq:897d9c27cbd78535c7d8f3b9603cbd018630055662fc2cbaab7ae8981ef0f852@ec2-3-213-41-172.compute-1.amazonaws.com:5432/ddlsms9to8onoo')
 db = SQLAlchemy()
 
 '''
