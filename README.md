@@ -349,5 +349,5 @@ python test_app.py
 ```
 
 ## Postman Collection
-You can also test the application using Postman collection in \starter\Casting Agency.postman_collection.json
+You can also test the application using Postman collection in \Casting Agency.postman_collection.json
 
