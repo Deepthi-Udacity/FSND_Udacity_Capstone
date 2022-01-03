@@ -3,8 +3,8 @@ from sqlalchemy import Column, String, Integer
 from flask_sqlalchemy import SQLAlchemy
 
 DB_HOST = os.getenv('DB_HOST', '127.0.0.1:5432')
-DB_USER = os.getenv('DB_USER', 'postgres')
-DB_PASSWORD = os.getenv('DB_PASSWORD', 'password')
+DB_USER = os.getenv('DB_USER', 'student')
+DB_PASSWORD = os.getenv('DB_PASSWORD', 'student')
 DB_NAME = os.getenv('DB_NAME', 'castingagency')
 
 DB_PATH = 'postgresql://{}:{}@{}/{}'.format(DB_USER, DB_PASSWORD, DB_HOST, DB_NAME)
@@ -27,7 +27,7 @@ def setup_db(app, database_path=DB_PATH):
 '''
 Cast
 '''
-Cast = db.Table('Cast',
+Cast = db.Table('cast',
     db.Column('movie_id', db.Integer, db.ForeignKey('movie.id'), primary_key=True),
     db.Column('actor_id', db.Integer, db.ForeignKey('actor.id'), primary_key=True)
 )
@@ -41,12 +41,12 @@ class Movie(db.Model):
 
   id = Column(Integer, primary_key=True)
   title = Column(String)
-  releaseDate = Column(String)
+  releasedate = Column(String)
   actors = db.relationship('Actor', secondary=Cast, backref=db.backref('movies', lazy=True))
 
-  def __init__(self, title, releaseDate):
+  def __init__(self, title, releasedate):
     self.title = title
-    self.releaseDate = releaseDate
+    self.releasedate = releasedate
 
   def insert(self):
     db.session.add(self)
@@ -63,7 +63,7 @@ class Movie(db.Model):
     return {
       'id': self.id,
       'title': self.title,
-      'releaseDate': self.releaseDate
+      'releasedate': self.releasedate
     }
 
 '''

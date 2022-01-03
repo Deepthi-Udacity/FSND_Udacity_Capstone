@@ -55,7 +55,7 @@ def create_app(test_config=None):
     [POST Add a  movie endpoint]
     Input :
         title : title of the movie
-        releaseDate : date of release of the movie
+        releasedate : date of release of the movie
     Returns:
         created : created movie id
   '''
@@ -64,9 +64,9 @@ def create_app(test_config=None):
   def create_movies(payload):
     body = request.get_json()
     title =  body.get("title", None)
-    releaseDate=  body.get("releaseDate", None)
+    releasedate=  body.get("releasedate", None)
     try:
-        newMovie = Movie(title =title ,releaseDate=releaseDate)
+        newMovie = Movie(title =title ,releasedate=releasedate)
         newMovie.insert()
         return jsonify(
           {
@@ -206,11 +206,11 @@ def create_app(test_config=None):
     [PATCH Edit a  movie endpoint]
     Input :
         title : title of the movie
-        releaseDate : releaseDate of the movie
+        releasedate : releasedate of the movie
     Returns:
         updated : updated movie id
         title : title of the movie
-        releaseDate : releaseDate of the movie
+        releasedate : releasedate of the movie
   '''
   @app.route('/movies/<int:movie_id>', methods=['PATCH'])
   @requires_auth('patch:movies')
@@ -221,11 +221,11 @@ def create_app(test_config=None):
         abort(404)
     try:
         new_title = body.get('title')
-        new_releaseDate = body.get('releaseDate')
+        new_releasedate = body.get('releasedate')
         if new_title:
             movie.title = new_title
-        if new_releaseDate:
-            movie.releaseDate = new_releaseDate
+        if new_releasedate:
+            movie.releasedate = new_releasedate
         movie.update()
         updated_movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
     except BaseException:

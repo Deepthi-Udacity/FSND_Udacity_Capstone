@@ -1,5 +1,11 @@
 # Casting Agency
 
+## Capstone Project for Udacity's Full Stack Developer Nanodegree
+
+Heroku Link: https://fsndudacityfinalproject.herokuapp.com/
+
+While running locally: http://localhost:5000
+
 ## Getting Started
 
 ### Installing Dependencies
@@ -96,11 +102,22 @@ The `--reload` flag will detect file changes and restart the server automaticall
    - Run the collection and correct any errors.
    - Export the collection overwriting the one we've included so that we have your proper JWTs during review!
 
+## Setup Database
+
+ Run the commands below from the same directory.
+
+```
+dropdb castingagency
+createdb castingagency
+psql castingagency < casting.psql
+
+```
 ## API Reference
 
 ### Getting Started
-- Base URL: At present this app can only be run locally and is not hosted as a base URL. The backend app is hosted at the default, `http://127.0.0.1:5000/`, which is set as a proxy in the frontend configuration. 
-- Authentication: This version of the application does not require authentication or API keys. 
+- Base URL: At present this app is hosted in Heroku - https://fsndudacityfinalproject.herokuapp.com/ 
+- When running locally, the app can be accessed by `http://127.0.0.1:5000/`
+- Authentication: is managed by Auth0
 
 ### Error Handling
 Errors are returned as JSON objects in the following format:
@@ -108,7 +125,7 @@ Errors are returned as JSON objects in the following format:
 {
     "success": False, 
     "error": 400,
-    "message": "bad request"
+    "message": "Bad request"
 }
 ```
 The API will return below error types when requests fail:
@@ -123,8 +140,9 @@ The API will return below error types when requests fail:
 #### GET /movies
 - General:
     - Returns a list of movies
+    - requires get:movies permission
 ``` 
-curl http://127.0.0.1:5000/movies
+ https://fsndudacityfinalproject.herokuapp.com/movies
 ```
 Response:
 ``` {
@@ -146,8 +164,9 @@ Response:
 #### GET /actors
 - General:
     - Returns a list of actors
+    - requires get:actors permission
 ``` 
-curl http://127.0.0.1:5000/actors
+https://fsndudacityfinalproject.herokuapp.com/actors
 ```
 Response:
 ``` {
@@ -168,326 +187,167 @@ Response:
     "success": true
 }
 ```
-#### GET /categories/{category_id}/questions
-- General:
-    - Returns a list of questions for a given category_id
-    - Results are paginated in groups of 10. 
 
-``` 
-curl http://127.0.0.1:5000/categories/3/questions
+#### POST /movies
+- General:
+    - Creates a new movie
+    - Returns the id of the created movie, success value
+    - requires post:movies permission
+
+Request:
 ```
-Response:
-``` {
-  "current_category": "Geography",
-  "questions": [
-    {
-      "answer": "Lake Victoria",
-      "category": 3,
-      "difficulty": 2,
-      "id": 13,
-      "question": "What is the largest lake in Africa?"
-    },
-    {
-      "answer": "The Palace of Versailles",
-      "category": 3,
-      "difficulty": 3,
-      "id": 14,
-      "question": "In which royal palace would you find the Hall of Mirrors?"
-    },
-    {
-      "answer": "Agra",
-      "category": 3,
-      "difficulty": 2,
-      "id": 15,
-      "question": "The Taj Mahal is located in which Indian city?"
-    }
-  ],
-  "success": true,
-  "total_questions": 20
+https://fsndudacityfinalproject.herokuapp.com/movies
+
+```
+Request Body:
+```
+{
+    "title" : "Movie1",
+    "releaseDate" : "2021-11-16"
 }
-```
-
-#### GET /questions
-- General:
-    - Returns a list of questions ,list of categories,  and total number of questions
-    - Results are paginated in groups of 10. Includes a request argument to choose page number, starting from 1. 
-- Sample: 
-``` 
-curl http://127.0.0.1:5000/questions
-curl http://127.0.0.1:5000/questions?page=1
-```
-Response:
-``` {
-  "categories": {
-    "1": "Science",
-    "2": "Art",
-    "3": "Geography",
-    "4": "History",
-    "5": "Entertainment",
-    "6": "Sports"
-  },
-  "questions": [
-    {
-      "answer": "Apollo 13",
-      "category": 5,
-      "difficulty": 4,
-      "id": 2,
-      "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
-    },
-    {
-      "answer": "Tom Cruise",
-      "category": 5,
-      "difficulty": 4,
-      "id": 4,
-      "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
-    },
-    {
-      "answer": "Edward Scissorhands",
-      "category": 5,
-      "difficulty": 3,
-      "id": 6,
-      "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
-    },
-    {
-      "answer": "Muhammad Ali",
-      "category": 4,
-      "difficulty": 1,
-      "id": 9,
-      "question": "What boxer's original name is Cassius Clay?"
-    },
-    {
-      "answer": "Brazil",
-      "category": 6,
-      "difficulty": 3,
-      "id": 10,
-      "question": "Which is the only team to play in every soccer World Cup tournament?"
-    },
-    {
-      "answer": "Uruguay",
-      "category": 6,
-      "difficulty": 4,
-      "id": 11,
-      "question": "Which country won the first ever soccer World Cup in 1930?"
-    },
-    {
-      "answer": "George Washington Carver",
-      "category": 4,
-      "difficulty": 2,
-      "id": 12,
-      "question": "Who invented Peanut Butter?"
-    },
-    {
-      "answer": "Lake Victoria",
-      "category": 3,
-      "difficulty": 2,
-      "id": 13,
-      "question": "What is the largest lake in Africa?"
-    },
-    {
-      "answer": "The Palace of Versailles",
-      "category": 3,
-      "difficulty": 3,
-      "id": 14,
-      "question": "In which royal palace would you find the Hall of Mirrors?"
-    },
-    {
-      "answer": "Agra",
-      "category": 3,
-      "difficulty": 2,
-      "id": 15,
-      "question": "The Taj Mahal is located in which Indian city?"
-    }
-  ],
-  "success": true,
-  "total_questions": 19
-}
-```
-
-#### POST /questions
-- General:
-    - Creates a new question using the submitted question, answer,category and difficulty rating.
-    -  Returns the id of the created book, success value to the frontend. 
-
-```
-curl http://127.0.0.1:5000/questions  -X POST -H "Content-Type: application/json" -d '{"question": "Is Virus a living organism?",  "answer": "No", "difficulty": 1,  "category": 1}'
 ```
 Response:
 ```
 {
-  "created": 28,
-  "success": true
+    "created": 1,
+    "success": true
 }
 ```
-#### POST /questions
+
+#### POST /actors
 - General:
-    - Searches a question using the given searchTerm
-    -  Returns the success value, number of questions matching the searchTerm, list of questions to the frontend. 
+    - Creates a new actor
+    - Returns the id of the created actor, success value
+    - requires post:actors permission
+
+Request:
+```
+https://fsndudacityfinalproject.herokuapp.com/actors
 
 ```
-curl  -X POST -H "Content-Type: application/json" -d '{"searchTerm":"man"}' http://127.0.0.1:5000/questions
+Request Body:
+```
+{
+    "name" : "Actor1",
+    "age" : 80,
+    "gender" : "Male"
+}
 ```
 Response:
 ```
 {
-  "questions": [
-    {
-      "answer": "Edward Scissorhands",
-      "category": 5,
-      "difficulty": 3,
-      "id": 6,
-      "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
-    },
-    {
-      "answer": "One",
-      "category": 2,
-      "difficulty": 4,
-      "id": 18,
-      "question": "How many paintings did Van Gogh sell in his lifetime?"
-    },
-    {
-      "answer": "The Liver",
-      "category": 1,
-      "difficulty": 4,
-      "id": 20,
-      "question": "What is the heaviest organ in the human body?"
+    "created": 1,
+    "success": true
+}
+```
+
+#### DELETE /movies/{movie_id}
+- General:
+    - Deletes the movie of the given ID if it exists. 
+    - Returns the id of the deleted movie, success value. 
+    - requires delete:movies permission
+
+Request:
+```
+https://fsndudacityfinalproject.herokuapp.com/movies/1
+```
+Response:
+```
+{
+    "deleted": 1,
+    "success": true
+}
+
+```
+#### DELETE /actors/{actor_id}
+- General:
+    - Deletes the actor of the given ID if it exists. 
+    - Returns the id of the deleted actor, success value. 
+    - requires delete:actors permission
+
+Request:
+```
+https://fsndudacityfinalproject.herokuapp.com/actors/1
+```
+Response:
+```
+{
+    "deleted": 1,
+    "success": true
+}
+
+```
+
+#### PATCH /movies/movie_id
+- General:
+    - Updates the movie for given ID
+    - Returns the full details of the updated movie, success value
+    - requires patch:movies permission
+
+Request:
+```
+https://fsndudacityfinalproject.herokuapp.com/movies/1
+
+```
+Request Body:
+```
+{
+    "releaseDate" : "2022-11-18"
+}
+```
+Response:
+```
+{
+    "success": true,
+    "updated_movie": {
+        "id": 1,
+        "releaseDate": "2022-11-18",
+        "title": "Movie1"
     }
-  ],
-  "success": true,
-  "total_questions": 3
 }
-
 ```
-#### POST /quizzes
+
+#### PATCH /actors/actor_id
 - General:
-    - Endpoint to play quiz.
-    - Takes previously answered questions as inputs, and the category
-    - Returns next question to be answered to the frontend in random order. 
+    - Updates the actor for given ID
+    - Returns the full details of the updated actor, success value
+    - requires patch:actors permission
+
+Request:
+```
+https://fsndudacityfinalproject.herokuapp.com/actors/1
 
 ```
-curl  -X POST -H "Content-Type: application/json" -d '{"previous_questions":[21], "quiz_category":{"type": "Science", "id": "1"}}' http://127.0.0.1:5000/quizzes
-
+Request Body:
+```
+{
+    "age" : 40
+}
 ```
 Response:
 ```
 {
-  "question": {
-    "answer": "Blood",
-    "category": 1,
-    "difficulty": 4,
-    "id": 22,
-    "question": "Hematology is a branch of medicine involving the study of what?"
-  },
-  "success": true
-}
-```
-
-#### DELETE /questions/{question_id}
-- General:
-    - Deletes the question of the given ID if it exists. 
-    - Returns the id of the deleted question, success value, total questions, and questions list based on current page number to update the frontend. 
-
-```
-curl http://127.0.0.1:5000/questions/28  -X  DELETE
-```
-Response:
-```
-{
-  "categories": {
-    "1": "Science",
-    "2": "Art",
-    "3": "Geography",
-    "4": "History",
-    "5": "Entertainment",
-    "6": "Sports"
-  },
-  "deleted": 28,
-  "questions": [
-    {
-      "answer": "Apollo 13",
-      "category": 5,
-      "difficulty": 4,
-      "id": 2,
-      "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
-    },
-    {
-      "answer": "Tom Cruise",
-      "category": 5,
-      "difficulty": 4,
-      "id": 4,
-      "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
-    },
-    {
-      "answer": "Edward Scissorhands",
-      "category": 5,
-      "difficulty": 3,
-      "id": 6,
-      "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
-    },
-    {
-      "answer": "Muhammad Ali",
-      "category": 4,
-      "difficulty": 1,
-      "id": 9,
-      "question": "What boxer's original name is Cassius Clay?"
-    },
-    {
-      "answer": "Brazil",
-      "category": 6,
-      "difficulty": 3,
-      "id": 10,
-      "question": "Which is the only team to play in every soccer World Cup tournament?"
-    },
-    {
-      "answer": "Uruguay",
-      "category": 6,
-      "difficulty": 4,
-      "id": 11,
-      "question": "Which country won the first ever soccer World Cup in 1930?"
-    },
-    {
-      "answer": "George Washington Carver",
-      "category": 4,
-      "difficulty": 2,
-      "id": 12,
-      "question": "Who invented Peanut Butter?"
-    },
-    {
-      "answer": "Lake Victoria",
-      "category": 3,
-      "difficulty": 2,
-      "id": 13,
-      "question": "What is the largest lake in Africa?"
-    },
-    {
-      "answer": "The Palace of Versailles",
-      "category": 3,
-      "difficulty": 3,
-      "id": 14,
-      "question": "In which royal palace would you find the Hall of Mirrors?"
-    },
-    {
-      "answer": "Agra",
-      "category": 3,
-      "difficulty": 2,
-      "id": 15,
-      "question": "The Taj Mahal is located in which Indian city?"
+    "success": true,
+    "updated_actor": {
+        "age": 40,
+        "gender": "Male",
+        "id": 1,
+        "name": "Actor1"
     }
-  ],
-  "success": true,
-  "total_questions": 20
 }
-
 ```
-
 ## Testing
 To run the tests,
 
- Run the commands below from the `/backend/` directory.
+ Run the commands below from the same directory.
 
 ```
-dropdb trivia_test
-createdb trivia_test
-psql trivia_test < trivia.psql
-python test_flaskr.py
+dropdb castingagencytest
+createdb castingagencytest
+psql castingagencytest < casting.psql
+python test_app.py
 ```
+
+## Postman Collection
+You can also test the application using Postman collection in \starter\Casting Agency.postman_collection.json
 

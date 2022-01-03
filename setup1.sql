@@ -1,0 +1,10 @@
+DROP DATABASE IF EXISTS castingagency;
+DROP DATABASE IF EXISTS castingagencytest;
+DROP USER IF EXISTS student;
+CREATE DATABASE castingagency;
+CREATE DATABASE castingagencytest;
+CREATE USER student WITH ENCRYPTED PASSWORD 'student';
+GRANT ALL PRIVILEGES ON DATABASE castingagency TO student;
+GRANT ALL PRIVILEGES ON DATABASE castingagencytest TO student;
+ALTER USER student CREATEDB;
+ALTER USER student WITH SUPERUSER;
